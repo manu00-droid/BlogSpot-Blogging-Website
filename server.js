@@ -1,16 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const articleRouter = require("./routes/articles");
+const articleRouter = require("./routes/articlesRouter");
 const app = express();
 
+//connecting to the database
 mongoose.connect('mongodb://localhost/blog', {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 
+//setting the view engine to ejs
 app.set('view engine', 'ejs');
 
-app.use('/articles', articleRouter);
+//https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
 app.use(express.urlencoded({ extended: false }));
+
+//rendering the index.ejs file
 app.get('/', (req, res) => {
     const articles = [{
         title: 'Test Article',
@@ -24,7 +28,10 @@ app.get('/', (req, res) => {
         createdAt: new Date(),
         description: 'Test description 2'
     }]
-    res.render('articles/index', { articles: articles });
+    res.render('articlesView/index', { articles: articles });
 })
+
+//using the articlesView router
+app.use('/articles', articleRouter);
 
 app.listen(5000);
