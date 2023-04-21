@@ -9,8 +9,8 @@ router.get('/new', (req, res) => {
 });
 
 //render a specific article
-router.get('/:id', (req, res) => {
-    const fetchedArticle = Article.findById(req.params.id);
+router.get('/:id', async (req, res) => {
+    const fetchedArticle = await Article.findById(req.params.id);
     if (fetchedArticle == null) res.redirect('/');
     res.render('articlesView/show', { article: fetchedArticle });
 });
