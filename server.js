@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Article = require("./models/articleModel");
 const articleRouter = require("./routes/articlesRouter");
+const methodOverride = require("method-override");  //helps to use delete, put methods on forms in html
 const app = express();
 
 //connecting to the database
@@ -14,6 +15,8 @@ app.set('view engine', 'ejs');
 
 //https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
 app.use(express.urlencoded({ extended: false }));
+
+app.use(methodOverride('_method'));
 
 //rendering the index.ejs file
 app.get('/', async (req, res) => {
